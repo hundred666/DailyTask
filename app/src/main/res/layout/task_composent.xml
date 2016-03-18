@@ -31,8 +31,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New CheckBox"
-        android:id="@+id/checkBox"
+        android:id="@+id/task_over"
         android:layout_alignParentRight="true"
+        android:checked="false"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@id/main_part"/>
 </RelativeLayout>
