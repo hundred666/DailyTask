@@ -2,11 +2,11 @@ package txiner.top.dailytask.database;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +19,20 @@ public class DAOHelper {
         helper = new DBOpenHelper(context);
     }
 
+    public void addTask(Object[] params){
+        SQLiteDatabase database = null;
+        try {
+            String sql = "insert into tasks(name,content,over) values(?,?,?)";
+            database = helper.getWritableDatabase();
+            database.execSQL(sql, params);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (database != null) {
+                database.close();
+            }
+        }
+    }
 
     public ArrayList<Map<String, Object>> getTasks(String[] selectionArgs) {
         ArrayList<Map<String, Object>> tasks = null;

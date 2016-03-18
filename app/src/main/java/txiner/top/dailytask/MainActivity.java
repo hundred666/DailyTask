@@ -26,6 +26,7 @@ import txiner.top.dailytask.util.Task;
 import txiner.top.dailytask.util.TaskAdapter;
 
 public class MainActivity extends AppCompatActivity {
+    //// TODO: 2016/3/18 add tasks to database and sync tasks
 
 
     private ListView listView = null;
