@@ -57,8 +57,9 @@ public class MainActivity extends AppCompatActivity {
             task.put("name","name "+i);
             task.put("content","content "+i);
             task.put("over",false);
+            tasks.add(task);
         }
-        return null;
+        return tasks;
     }
 
 
