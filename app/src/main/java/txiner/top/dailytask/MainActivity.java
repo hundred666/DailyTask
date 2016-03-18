@@ -2,6 +2,7 @@ package txiner.top.dailytask;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import txiner.top.dailytask.database.DAOHelper;
 import txiner.top.dailytask.util.Task;
 import txiner.top.dailytask.util.TaskAdapter;
 
@@ -48,6 +50,10 @@ public class MainActivity extends AppCompatActivity {
 
         tasks = getTasks();
 
+        if (new DAOHelper(this).getTasks(null)!=null){
+            tasks=new DAOHelper(this).getTasks(null);
+        }
+
 
         listView = (ListView) findViewById(R.id.task_list);
         taskAdapter = new TaskAdapter(this, tasks);
@@ -55,6 +61,35 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
+
+    /*private class GetTaskThread extends AsyncTask<Integer,Integer,String>{
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected String doInBackground(Integer... params) {
+            return null;
+        }
+    }*/
+
+
 
     private ArrayList<Map<String, Object>> getTasks() {
         ArrayList<Map<String, Object>> tasks = new ArrayList<>();

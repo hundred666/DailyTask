@@ -20,8 +20,8 @@ public class DAOHelper {
     }
 
 
-    public List<Map<String, Object>> getTasks(String[] selectionArgs) {
-        List<Map<String, Object>> tasks = null;
+    public ArrayList<Map<String, Object>> getTasks(String[] selectionArgs) {
+        ArrayList<Map<String, Object>> tasks = null;
         String sql = "select * from tasks";
         SQLiteDatabase database = helper.getReadableDatabase();
         Cursor cursor = database.rawQuery(sql, selectionArgs);
