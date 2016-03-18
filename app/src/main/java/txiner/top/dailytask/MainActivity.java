@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ListView listView = null;
-    ArrayList<Map<String,Object>> tasks=null;
-    TaskAdapter taskAdapter=null;
+    ArrayList<Map<String, Object>> tasks = null;
+    TaskAdapter taskAdapter = null;
 
 
     @Override
@@ -42,55 +43,53 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setDialog();
-                }
+            }
         });
 
-        tasks=getTasks();
+        tasks = getTasks();
 
 
         listView = (ListView) findViewById(R.id.task_list);
-        taskAdapter=new TaskAdapter(this,tasks);
+        taskAdapter = new TaskAdapter(this, tasks);
         listView.setAdapter(taskAdapter);
 
 
     }
 
     private ArrayList<Map<String, Object>> getTasks() {
-        ArrayList<Map<String, Object>> tasks=new ArrayList<>();
-        for (int i=0;i<3;i++){
-            Map<String, Object> task=new HashMap<>();
-            task.put("name","name "+i);
-            task.put("content","content "+i);
-            task.put("over",false);
+        ArrayList<Map<String, Object>> tasks = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            Map<String, Object> task = new HashMap<>();
+            task.put("name", "name " + i);
+            task.put("content", "content " + i);
+            task.put("over", false);
             tasks.add(task);
         }
         return tasks;
     }
 
-
-
-
-
-
-    public void setDialog(){
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+    public void setDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("添加计划");
-        View view= LayoutInflater.from(MainActivity.this).inflate(R.layout.task_composent,null);
+        View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.task_composent, null);
         builder.setView(view);
-        final EditText addTaskName= (EditText) view.findViewById(R.id.add_task_name);
+        final EditText addTaskName = (EditText) view.findViewById(R.id.add_task_name);
         final EditText addTaskContent = (EditText) view.findViewById(R.id.add_task_content);
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Map<String, Object> task=new HashMap<>();
-                String taskName=addTaskName.getText().toString();
-                String taskContent=addTaskContent.getText().toString();
-                if (taskName!=null&&taskName.trim()!=""){
-                    task.put("name",taskName);
-                    task.put("content",taskContent);
-                    task.put("over",false);
+                Map<String, Object> task = new HashMap<>();
+                String taskName = addTaskName.getText().toString();
+                String taskContent = addTaskContent.getText().toString();
+                if (taskName != null && !taskName.trim().equals("")) {
+                    task.put("name", taskName);
+                    task.put("content", taskContent);
+                    task.put("over", false);
                     taskAdapter.add(task);
                     taskAdapter.notifyDataSetChanged();
+                    Toast.makeText(MainActivity.this, taskName + "已添加", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(MainActivity.this, "计划名未填写", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -102,17 +101,6 @@ public class MainActivity extends AppCompatActivity {
         });
         builder.create().show();
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }
