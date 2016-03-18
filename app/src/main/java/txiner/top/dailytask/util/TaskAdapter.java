@@ -36,6 +36,10 @@ public class TaskAdapter extends BaseAdapter {
         return tasks.get(position);
     }
 
+    public void add(Map<String, Object> task){
+        tasks.add(task);
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -45,7 +49,7 @@ public class TaskAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.task_composent, null);
+            convertView = LayoutInflater.from(context).inflate(R.layout.task_list, null);
             viewHolder = new ViewHolder();
             viewHolder.taskName = (TextView) convertView.findViewById(R.id.task_name);
             viewHolder.taskContent = (TextView) convertView.findViewById(R.id.task_content);
