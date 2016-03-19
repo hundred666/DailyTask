@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView = null;
     private TextView textView = null;
-    ArrayList<Map<String, Object>> tasks = null;
+    ArrayList<Map<String, Object>> tasks = new ArrayList<>();
     TaskAdapter taskAdapter = null;
 
 
@@ -56,34 +56,32 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        new Thread(new GetTask()).start();
+
+        textView = (TextView) findViewById(R.id.no_task);
+        listView = (ListView) findViewById(R.id.task_list);
+        taskAdapter = new TaskAdapter(this, tasks);
+        listView.setAdapter(taskAdapter);
+
+        if (tasks.size() == 0) {
+            listView.setVisibility(View.INVISIBLE);
+        } else {
+            textView.setVisibility(View.INVISIBLE);
+
+        }
+
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (taskAdapter!=null){
-                    taskAdapter = new TaskAdapter(MainActivity.this, tasks);
-                    listView.setAdapter(taskAdapter);
-                }
                 setDialog();
+                /*if () {
+                    textView.setVisibility(View.INVISIBLE);
+                    listView.setVisibility(View.VISIBLE);
+                }*/
             }
         });
-
-//        tasks = getTasks();
-
-        /*if (new DAOHelper(this).getTasks(null)!=null){
-            tasks=new DAOHelper(this).getTasks(null);
-        }*/
-
-        listView = (ListView) findViewById(R.id.task_list);
-        textView = (TextView) findViewById(R.id.no_task);
-
-        if (tasks == null || tasks.size() == 0) {
-            listView.setVisibility(View.INVISIBLE);
-        } else {
-            textView.setVisibility(View.INVISIBLE);
-            taskAdapter = new TaskAdapter(this, tasks);
-            listView.setAdapter(taskAdapter);
-        }
 
 
     }
@@ -100,19 +98,6 @@ public class MainActivity extends AppCompatActivity {
             message.setData(bundle);
         }
     }
-
-
-    /*private ArrayList<Map<String, Object>> getTasks() {
-        ArrayList<Map<String, Object>> tasks = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            Map<String, Object> task = new HashMap<>();
-            task.put("name", "name " + i);
-            task.put("content", "content " + i);
-            task.put("over", false);
-            tasks.add(task);
-        }
-        return tasks;
-    }*/
 
     public void setDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -134,6 +119,11 @@ public class MainActivity extends AppCompatActivity {
                     taskAdapter.add(task);
                     taskAdapter.notifyDataSetChanged();
                     Toast.makeText(MainActivity.this, taskName + "已添加", Toast.LENGTH_SHORT).show();
+
+
+                    textView.setVisibility(View.INVISIBLE);
+                    listView.setVisibility(View.VISIBLE);
+
                 } else {
                     Toast.makeText(MainActivity.this, "计划名未填写", Toast.LENGTH_SHORT).show();
                 }
