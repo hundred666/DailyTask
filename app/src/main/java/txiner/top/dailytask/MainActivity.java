@@ -60,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (taskAdapter!=null){
+                    taskAdapter = new TaskAdapter(MainActivity.this, tasks);
+                    listView.setAdapter(taskAdapter);
+                }
                 setDialog();
             }
         });
@@ -98,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private ArrayList<Map<String, Object>> getTasks() {
+    /*private ArrayList<Map<String, Object>> getTasks() {
         ArrayList<Map<String, Object>> tasks = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
             Map<String, Object> task = new HashMap<>();
@@ -108,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             tasks.add(task);
         }
         return tasks;
-    }
+    }*/
 
     public void setDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
