@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -32,17 +33,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private ListView listView = null;
+    private TextView textView = null;
     ArrayList<Map<String, Object>> tasks = null;
     TaskAdapter taskAdapter = null;
 
 
-    private Handler handler=new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            Bundle bundle=new Bundle();
-            bundle=msg.getData();
-            tasks= (ArrayList<Map<String, Object>>) bundle.getSerializable("tasks");
+            Bundle bundle = new Bundle();
+            bundle = msg.getData();
+            tasks = (ArrayList<Map<String, Object>>) bundle.getSerializable("tasks");
         }
     };
 
@@ -62,37 +64,38 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        tasks = getTasks();
+//        tasks = getTasks();
 
         /*if (new DAOHelper(this).getTasks(null)!=null){
             tasks=new DAOHelper(this).getTasks(null);
         }*/
 
-
         listView = (ListView) findViewById(R.id.task_list);
-        taskAdapter = new TaskAdapter(this, tasks);
-        listView.setAdapter(taskAdapter);
+        textView = (TextView) findViewById(R.id.no_task);
+
+        if (tasks == null || tasks.size() == 0) {
+            listView.setVisibility(View.INVISIBLE);
+        } else {
+            textView.setVisibility(View.INVISIBLE);
+            taskAdapter = new TaskAdapter(this, tasks);
+            listView.setAdapter(taskAdapter);
+        }
 
 
     }
 
 
-    private class GetTask implements Runnable{
+    private class GetTask implements Runnable {
 
         @Override
         public void run() {
-            Message message=handler.obtainMessage();
-            Bundle bundle=new Bundle();
-            ArrayList<Map<String, Object>> tasks=new DAOHelper(MainActivity.this).getTasks(null);
-            bundle.putSerializable("tasks",tasks);
+            Message message = handler.obtainMessage();
+            Bundle bundle = new Bundle();
+            ArrayList<Map<String, Object>> tasks = new DAOHelper(MainActivity.this).getTasks(null);
+            bundle.putSerializable("tasks", tasks);
             message.setData(bundle);
         }
     }
-
-
-
-
-
 
 
     private ArrayList<Map<String, Object>> getTasks() {
