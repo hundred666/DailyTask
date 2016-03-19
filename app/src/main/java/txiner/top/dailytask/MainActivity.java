@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                 Map<String, Object> task = new HashMap<>();
                 String taskName = addTaskName.getText().toString();
                 String taskContent = addTaskContent.getText().toString();
-                if (taskName != null && !taskName.trim().equals("")) {
+                if (!taskName.trim().equals("")) {
                     task.put("name", taskName);
                     task.put("content", taskContent);
                     task.put("over", false);
