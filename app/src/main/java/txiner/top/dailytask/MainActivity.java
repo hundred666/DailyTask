@@ -10,6 +10,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
@@ -29,7 +30,7 @@ import txiner.top.dailytask.util.Task;
 import txiner.top.dailytask.util.TaskAdapter;
 
 public class MainActivity extends AppCompatActivity {
-    //// TODO: 2016/3/18 add tasks to database and how to show listview
+    // TODO: 2016/3/19  async read some errors and how to show listview
 
 
     private ListView listView = null;
@@ -38,21 +39,35 @@ public class MainActivity extends AppCompatActivity {
     TaskAdapter taskAdapter = null;
 
 
-    private Handler handler = new Handler() {
+    /*private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             Bundle bundle = new Bundle();
             bundle = msg.getData();
             tasks = (ArrayList<Map<String, Object>>) bundle.getSerializable("tasks");
+
+
+            if (msg.what == 0) {
+                listView.setVisibility(View.INVISIBLE);
+                textView.setVisibility(View.VISIBLE);
+            } else {
+                textView.setVisibility(View.INVISIBLE);
+                listView.setVisibility(View.VISIBLE);
+
+            }
+
         }
-    };
+    };*/
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        new Thread(new GetTask()).start();
+
+        tasks = new DAOHelper(this).getTasks(null);
 
         initView();
 
@@ -62,19 +77,22 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        new Thread(new GetTask()).start();
 
         textView = (TextView) findViewById(R.id.no_task);
         listView = (ListView) findViewById(R.id.task_list);
         taskAdapter = new TaskAdapter(this, tasks);
         listView.setAdapter(taskAdapter);
 
+
         if (tasks.size() == 0) {
             listView.setVisibility(View.INVISIBLE);
+            textView.setVisibility(View.VISIBLE);
         } else {
             textView.setVisibility(View.INVISIBLE);
+            listView.setVisibility(View.VISIBLE);
 
         }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private class GetTask implements Runnable {
+    /*private class GetTask implements Runnable {
 
         @Override
         public void run() {
@@ -93,9 +111,15 @@ public class MainActivity extends AppCompatActivity {
             Bundle bundle = new Bundle();
             ArrayList<Map<String, Object>> tasks = new DAOHelper(MainActivity.this).getTasks(null);
             bundle.putSerializable("tasks", tasks);
+            if (tasks.size()!=0){
+                message.what=1;
+            }else {
+                message.what=0;
+            }
             message.setData(bundle);
+            handler.sendMessage(message);
         }
-    }
+    }*/
 
     public void setDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
