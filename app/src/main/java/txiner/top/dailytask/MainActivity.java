@@ -76,10 +76,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 setDialog();
-                /*if () {
-                    textView.setVisibility(View.INVISIBLE);
-                    listView.setVisibility(View.VISIBLE);
-                }*/
             }
         });
 
