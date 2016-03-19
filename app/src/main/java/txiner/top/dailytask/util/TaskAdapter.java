@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import txiner.top.dailytask.R;
+import txiner.top.dailytask.service.AddTask;
 
 /**
  * Created by wzhuo on 2016/3/18.
@@ -38,6 +39,7 @@ public class TaskAdapter extends BaseAdapter {
 
     public void add(Map<String, Object> task){
         tasks.add(task);
+        new AddTask(task,context).start();
     }
 
     @Override

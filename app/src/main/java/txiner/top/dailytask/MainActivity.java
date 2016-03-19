@@ -29,7 +29,7 @@ import txiner.top.dailytask.util.Task;
 import txiner.top.dailytask.util.TaskAdapter;
 
 public class MainActivity extends AppCompatActivity {
-    //// TODO: 2016/3/18 add tasks to database and sync tasks
+    //// TODO: 2016/3/18 add tasks to database and how to show listview
 
 
     private ListView listView = null;
@@ -53,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initView();
+
+    }
+
+    private void initView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -69,8 +75,6 @@ public class MainActivity extends AppCompatActivity {
             textView.setVisibility(View.INVISIBLE);
 
         }
-
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,9 +83,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
-
 
     private class GetTask implements Runnable {
 
@@ -115,11 +117,8 @@ public class MainActivity extends AppCompatActivity {
                     taskAdapter.add(task);
                     taskAdapter.notifyDataSetChanged();
                     Toast.makeText(MainActivity.this, taskName + "已添加", Toast.LENGTH_SHORT).show();
-
-
                     textView.setVisibility(View.INVISIBLE);
                     listView.setVisibility(View.VISIBLE);
-
                 } else {
                     Toast.makeText(MainActivity.this, "计划名未填写", Toast.LENGTH_SHORT).show();
                 }
