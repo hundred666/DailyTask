@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -34,6 +36,17 @@ public class MainActivity extends AppCompatActivity {
     TaskAdapter taskAdapter = null;
 
 
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            Bundle bundle=new Bundle();
+            bundle=msg.getData();
+            tasks= (ArrayList<Map<String, Object>>) bundle.getSerializable("tasks");
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
         tasks = getTasks();
 
-        if (new DAOHelper(this).getTasks(null)!=null){
+        /*if (new DAOHelper(this).getTasks(null)!=null){
             tasks=new DAOHelper(this).getTasks(null);
-        }
+        }*/
 
 
         listView = (ListView) findViewById(R.id.task_list);
@@ -64,31 +77,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
-
-    /*private class GetTaskThread extends AsyncTask<Integer,Integer,String>{
-
+    private class GetTask implements Runnable{
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        public void run() {
+            Message message=handler.obtainMessage();
+            Bundle bundle=new Bundle();
+            ArrayList<Map<String, Object>> tasks=new DAOHelper(MainActivity.this).getTasks(null);
+            bundle.putSerializable("tasks",tasks);
+            message.setData(bundle);
         }
+    }
 
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-        }
 
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-        }
 
-        @Override
-        protected String doInBackground(Integer... params) {
-            return null;
-        }
-    }*/
+
 
 
 

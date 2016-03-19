@@ -1,9 +1,11 @@
 package txiner.top.dailytask.util;
 
+import java.io.Serializable;
+
 /**
  * Created by wzhuo on 2016/3/18.
  */
-public class Task {
+public class Task implements Serializable {
     int time;
     String name;
     String content;
