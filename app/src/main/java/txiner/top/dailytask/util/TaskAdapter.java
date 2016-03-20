@@ -9,10 +9,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import txiner.top.dailytask.R;
-import txiner.top.dailytask.service.AddTask;
+import txiner.top.dailytask.service.SetTask;
 
 /**
  * Created by wzhuo on 2016/3/18.
@@ -39,7 +38,7 @@ public class TaskAdapter extends BaseAdapter {
 
     public void add(Task task){
         tasks.add(task);
-        new AddTask(task,context).start();
+        new SetTask(task,context).start();
     }
 
     @Override
@@ -69,6 +68,8 @@ public class TaskAdapter extends BaseAdapter {
         viewHolder.taskOver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                task.setOver(!task.isOver());
+                new SetTask(task,context).start();
 
             }
         });

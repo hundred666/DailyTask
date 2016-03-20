@@ -19,10 +19,10 @@ public class DAOHelper {
         helper = new DBOpenHelper(context);
     }
 
-    public void addTask(Object[] params) {
+    public void setTask(Object[] params) {
         SQLiteDatabase database = null;
         try {
-            String sql = "insert into tasks(name,content,over) values(?,?,?)";
+            String sql = "replace into tasks(name,content,over) values(?,?,?)";
             database = helper.getWritableDatabase();
             database.execSQL(sql, params);
         } catch (SQLException e) {
