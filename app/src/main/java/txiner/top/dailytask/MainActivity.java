@@ -14,7 +14,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import txiner.top.dailytask.database.DAOHelper;
 import txiner.top.dailytask.util.Task;
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView = null;
     ArrayList<Task> tasks = new ArrayList<>();
     TaskAdapter taskAdapter = null;
+
 
 
     /*private Handler handler = new Handler() {
@@ -93,6 +96,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
     }
 
     /*private class GetTask implements Runnable {
@@ -133,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                     task.setName(taskName);
                     task.setContent(taskContent);
                     task.setOver(false);
+                    task.setTime(new Date().getTime());
 
                     taskAdapter.add(task);
                     taskAdapter.notifyDataSetChanged();

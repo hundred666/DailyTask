@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by wzhuo on 2016/3/18.
  */
 public class Task implements Serializable {
-    int time;
+    long time;
     String name;
     String content;
     boolean over;
@@ -19,11 +19,11 @@ public class Task implements Serializable {
         this.name = name;
     }
 
-    public int getTime() {
+    public long getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(long time) {
         this.time = time;
     }
 

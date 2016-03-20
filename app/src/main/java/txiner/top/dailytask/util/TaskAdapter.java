@@ -38,8 +38,13 @@ public class TaskAdapter extends BaseAdapter {
 
     public void add(Task task){
         tasks.add(task);
+//        tasks.set(0,task);
         new SetTask(task,context).start();
     }
+
+    /*public void onChange(ArrayList<Task> tasks){
+        this.tasks=tasks;
+    }*/
 
     @Override
     public long getItemId(int position) {
@@ -70,7 +75,6 @@ public class TaskAdapter extends BaseAdapter {
             public void onClick(View v) {
                 task.setOver(!task.isOver());
                 new SetTask(task,context).start();
-
             }
         });
 

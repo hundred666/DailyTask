@@ -19,7 +19,7 @@ public class DBOpenHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql="create table tasks(name varchar(64) primary key,content text,over int)";
+        String sql="create table tasks(name varchar(64) primary key,content text,over int,time int)";
         db.execSQL(sql);
 
     }

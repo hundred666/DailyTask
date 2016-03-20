@@ -22,7 +22,7 @@ public class SetTask extends Thread {
 
     @Override
     public void run() {
-        Object[] obj=new Object[]{task.getName(),task.getContent(),task.isOver()};
+        Object[] obj=new Object[]{task.getName(),task.getContent(),task.isOver(),task.getTime()};
         new DAOHelper(context).setTask(obj);
     }
 }

@@ -4,9 +4,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import txiner.top.dailytask.util.DateUtil;
 import txiner.top.dailytask.util.Task;
 
 /**
@@ -22,7 +25,7 @@ public class DAOHelper {
     public void setTask(Object[] params) {
         SQLiteDatabase database = null;
         try {
-            String sql = "replace into tasks(name,content,over) values(?,?,?)";
+            String sql = "replace into tasks(name,content,over,time) values(?,?,?,?)";
             database = helper.getWritableDatabase();
             database.execSQL(sql, params);
         } catch (SQLException e) {
@@ -50,17 +53,20 @@ public class DAOHelper {
                 Task task = new Task();
                 for (int i = 0; i < columnCount; i++) {
                     String colName = cursor.getColumnName(i);
-                    if (colName.equals("over")) {
-//                        Boolean over = Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex
-//                                (colName)));
-                        Boolean over=cursor.getInt(cursor.getColumnIndex(colName))==1?true:false;
+                    if (colName.equals("time")) {
+                        long time = cursor.getLong(cursor.getColumnIndex(colName));
+                        boolean flag = time < new DateUtil().startOfTodDay();
+
+                    } else if (colName.equals("over")) {
+                        Boolean over = cursor.getInt(cursor.getColumnIndex(colName)) == 1 ? true
+                                : false;
                         task.setOver(over);
                     } else if (colName.equals("name")) {
                         String name = cursor.getString(cursor.getColumnIndex(colName));
-                        if (name==null)
-                            name="";
+                        if (name == null)
+                            name = "";
                         task.setName(name);
-                    } else {
+                    } else if (colName.equals("content")) {
                         String content = cursor.getString(cursor.getColumnIndex(colName));
                         if (content == null) {
                             content = "";
