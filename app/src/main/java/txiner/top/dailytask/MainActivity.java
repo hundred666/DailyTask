@@ -2,28 +2,18 @@ package txiner.top.dailytask;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import txiner.top.dailytask.database.DAOHelper;
 import txiner.top.dailytask.util.Task;
@@ -35,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView = null;
     private TextView textView = null;
-    ArrayList<Map<String, Object>> tasks = new ArrayList<>();
+//    ArrayList<Map<String, Object>> tasks = new ArrayList<>();
+ArrayList<Task> tasks = new ArrayList<>();
     TaskAdapter taskAdapter = null;
 
 
@@ -131,13 +122,21 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Map<String, Object> task = new HashMap<>();
+//                Map<String, Object> task = new HashMap<>();
+
+                Task task=new Task();
+
                 String taskName = addTaskName.getText().toString();
                 String taskContent = addTaskContent.getText().toString();
                 if (!taskName.trim().equals("")) {
-                    task.put("name", taskName);
+                    /*task.put("name", taskName);
                     task.put("content", taskContent);
-                    task.put("over", false);
+                    task.put("over", false);*/
+
+                    task.setName(taskName);
+                    task.setContent(taskContent);
+                    task.setOver(false);
+
                     taskAdapter.add(task);
                     taskAdapter.notifyDataSetChanged();
                     Toast.makeText(MainActivity.this, taskName + "已添加", Toast.LENGTH_SHORT).show();

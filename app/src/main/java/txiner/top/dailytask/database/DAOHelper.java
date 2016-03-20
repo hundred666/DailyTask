@@ -6,8 +6,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
+import txiner.top.dailytask.util.Task;
 
 /**
  * Created by wzhuo on 2016/3/18.
@@ -19,7 +19,7 @@ public class DAOHelper {
         helper = new DBOpenHelper(context);
     }
 
-    public void addTask(Object[] params){
+    public void addTask(Object[] params) {
         SQLiteDatabase database = null;
         try {
             String sql = "insert into tasks(name,content,over) values(?,?,?)";
@@ -34,12 +34,12 @@ public class DAOHelper {
         }
     }
 
-    public ArrayList<Map<String, Object>> getTasks(String[] selectionArgs) {
-        ArrayList<Map<String, Object>> tasks = null;
-        SQLiteDatabase database=null;
+    public ArrayList<Task> getTasks(String[] selectionArgs) {
+        ArrayList<Task> tasks = null;
+        SQLiteDatabase database = null;
         String sql = "select * from tasks";
         try {
-             database= helper.getReadableDatabase();
+            database = helper.getReadableDatabase();
             Cursor cursor = database.rawQuery(sql, selectionArgs);
             if (cursor.getCount() == 0) {
                 return tasks;
@@ -49,19 +49,24 @@ public class DAOHelper {
 
             tasks = new ArrayList<>();
             while (cursor.moveToNext()) {
-                Map<String, Object> task = new HashMap<>();
+                Task task = new Task();
                 for (int i = 0; i < columnCount; i++) {
                     String colName = cursor.getColumnName(i);
                     if (colName.equals("over")) {
                         Boolean over = Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex
                                 (colName)));
-                        task.put(colName, over);
+                        task.setOver(over);
+                    } else if (colName.equals("name")) {
+                        String name = cursor.getString(cursor.getColumnIndex(colName));
+                        if (name==null)
+                            name="";
+                        task.setName(name);
                     } else {
-                        String cols_value = cursor.getString(cursor.getColumnIndex(colName));
-                        if (cols_value == null) {
-                            cols_value = "";
+                        String content = cursor.getString(cursor.getColumnIndex(colName));
+                        if (content == null) {
+                            content = "";
                         }
-                        task.put(colName, cols_value);
+                        task.setContent(content);
                     }
 
                 }
@@ -70,7 +75,7 @@ public class DAOHelper {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (database!=null){
+            if (database != null) {
                 database.close();
             }
         }

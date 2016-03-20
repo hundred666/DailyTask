@@ -6,16 +6,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 import txiner.top.dailytask.database.DAOHelper;
+import txiner.top.dailytask.util.Task;
 
 /**
  * Created by wzhuo on 2016/3/19.
  */
 public class AddTask extends Thread {
 
-    Map<String, Object> task = new HashMap<>();
+    Task task = new Task();
     Context context=null;
 
-    public AddTask(Map<String, Object> task,Context context ){
+    public AddTask(Task task,Context context ){
         this.task=task;
         this.context=context;
     }
@@ -23,7 +24,7 @@ public class AddTask extends Thread {
 
     @Override
     public void run() {
-        Object[] obj=new Object[]{task.get("name").toString(),task.get("content").toString(),task.get("over")};
+        Object[] obj=new Object[]{task.getName(),task.getContent(),task.isOver()};
         new DAOHelper(context).addTask(obj);
     }
 }

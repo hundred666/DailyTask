@@ -20,9 +20,9 @@ import txiner.top.dailytask.service.AddTask;
 public class TaskAdapter extends BaseAdapter {
 
     Context context;
-    ArrayList<Map<String, Object>> tasks;
+    ArrayList<Task> tasks;
 
-    public TaskAdapter(Context context, ArrayList<Map<String, Object>> tasks) {
+    public TaskAdapter(Context context, ArrayList<Task> tasks) {
         this.context = context;
         this.tasks = tasks;
     }
@@ -37,7 +37,7 @@ public class TaskAdapter extends BaseAdapter {
         return tasks.get(position);
     }
 
-    public void add(Map<String, Object> task){
+    public void add(Task task){
         tasks.add(task);
         new AddTask(task,context).start();
     }
@@ -50,7 +50,7 @@ public class TaskAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        final Map<String, Object> task=tasks.get(position);
+        final Task task=tasks.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.task_list, null);
             viewHolder = new ViewHolder();
@@ -62,9 +62,9 @@ public class TaskAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.taskName.setText((CharSequence) task.get("name"));
-        viewHolder.taskContent.setText((CharSequence) task.get("content"));
-        viewHolder.taskOver.setChecked((Boolean) task.get("over"));
+        viewHolder.taskName.setText(task.getName());
+        viewHolder.taskContent.setText(task.getContent());
+        viewHolder.taskOver.setChecked(task.isOver());
 
         viewHolder.taskOver.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +72,6 @@ public class TaskAdapter extends BaseAdapter {
 
             }
         });
-
 
         return convertView;
     }
