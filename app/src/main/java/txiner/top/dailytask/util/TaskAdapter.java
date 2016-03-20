@@ -50,6 +50,7 @@ public class TaskAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
+        final Map<String, Object> task=tasks.get(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.task_list, null);
             viewHolder = new ViewHolder();
@@ -61,9 +62,16 @@ public class TaskAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.taskName.setText((CharSequence) tasks.get(position).get("name"));
-        viewHolder.taskContent.setText((CharSequence) tasks.get(position).get("content"));
-        viewHolder.taskOver.setChecked((Boolean) tasks.get(position).get("over"));
+        viewHolder.taskName.setText((CharSequence) task.get("name"));
+        viewHolder.taskContent.setText((CharSequence) task.get("content"));
+        viewHolder.taskOver.setChecked((Boolean) task.get("over"));
+
+        viewHolder.taskOver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
         return convertView;
