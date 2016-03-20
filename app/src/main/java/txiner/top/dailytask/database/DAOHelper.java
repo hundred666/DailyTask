@@ -35,8 +35,8 @@ public class DAOHelper {
     }
 
     public ArrayList<Task> getTasks(String[] selectionArgs) {
-        ArrayList<Task> tasks = null;
         SQLiteDatabase database = null;
+        ArrayList<Task> tasks = new ArrayList<>();
         String sql = "select * from tasks";
         try {
             database = helper.getReadableDatabase();
@@ -46,15 +46,14 @@ public class DAOHelper {
             }
 
             int columnCount = cursor.getColumnCount();
-
-            tasks = new ArrayList<>();
             while (cursor.moveToNext()) {
                 Task task = new Task();
                 for (int i = 0; i < columnCount; i++) {
                     String colName = cursor.getColumnName(i);
                     if (colName.equals("over")) {
-                        Boolean over = Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex
-                                (colName)));
+//                        Boolean over = Boolean.parseBoolean(cursor.getString(cursor.getColumnIndex
+//                                (colName)));
+                        Boolean over=cursor.getInt(cursor.getColumnIndex(colName))==1?true:false;
                         task.setOver(over);
                     } else if (colName.equals("name")) {
                         String name = cursor.getString(cursor.getColumnIndex(colName));

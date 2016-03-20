@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -25,8 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ListView listView = null;
     private TextView textView = null;
-//    ArrayList<Map<String, Object>> tasks = new ArrayList<>();
-ArrayList<Task> tasks = new ArrayList<>();
+    ArrayList<Task> tasks = new ArrayList<>();
     TaskAdapter taskAdapter = null;
 
 
@@ -59,6 +59,7 @@ ArrayList<Task> tasks = new ArrayList<>();
 //        new Thread(new GetTask()).start();
 
         tasks = new DAOHelper(this).getTasks(null);
+        Log.i("daily",tasks.size()+"");
 
         initView();
 
@@ -122,16 +123,12 @@ ArrayList<Task> tasks = new ArrayList<>();
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                Map<String, Object> task = new HashMap<>();
 
-                Task task=new Task();
+                Task task = new Task();
 
                 String taskName = addTaskName.getText().toString();
                 String taskContent = addTaskContent.getText().toString();
                 if (!taskName.trim().equals("")) {
-                    /*task.put("name", taskName);
-                    task.put("content", taskContent);
-                    task.put("over", false);*/
 
                     task.setName(taskName);
                     task.setContent(taskContent);
