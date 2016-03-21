@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import txiner.top.dailytask.R;
+import txiner.top.dailytask.database.DAOHelper;
 import txiner.top.dailytask.service.SetTask;
 
 /**
@@ -40,6 +41,11 @@ public class TaskAdapter extends BaseAdapter {
         tasks.add(task);
 //        tasks.set(0,task);
         new SetTask(task,context).start();
+    }
+
+    public void delete(Task task){
+        tasks.remove(task);
+        new DAOHelper(context).deleteTask(task);
     }
 
     /*public void onChange(ArrayList<Task> tasks){
@@ -86,5 +92,7 @@ public class TaskAdapter extends BaseAdapter {
         TextView taskName, taskContent;
         CheckBox taskOver;
     }
+
+
 
 }

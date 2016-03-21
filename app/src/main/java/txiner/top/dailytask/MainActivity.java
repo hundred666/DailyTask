@@ -9,12 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -77,6 +77,26 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.task_list);
         taskAdapter = new TaskAdapter(this, tasks);
         listView.setAdapter(taskAdapter);
+        Log.i("daily", "before");
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long
+                    id) {
+                Log.i("daily", "access");
+                taskAdapter.delete(tasks.get(position));
+                taskAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("daily", "clicked");
+            }
+        });
+        Log.i("daily","after");
 
 
         if (tasks.size() == 0) {

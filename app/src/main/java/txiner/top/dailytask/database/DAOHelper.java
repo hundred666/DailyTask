@@ -4,10 +4,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import txiner.top.dailytask.util.DateUtil;
 import txiner.top.dailytask.util.Task;
@@ -85,6 +83,21 @@ public class DAOHelper {
             }
         }
         return tasks;
+    }
+
+    public void deleteTask(Task task){
+        SQLiteDatabase database = null;
+        try {
+            String sql = "delete from tasks where name='"+task.getName()+"'";
+            database = helper.getWritableDatabase();
+            database.execSQL(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (database != null) {
+                database.close();
+            }
+        }
     }
 
 
